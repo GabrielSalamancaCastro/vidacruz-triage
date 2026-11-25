@@ -1,0 +1,59 @@
+---
+
+## 12. `docs/diagrams/arquitectura.mmd`
+
+```mermaid
+graph TB
+    subgraph Cliente
+        C[REST Client]
+    end
+
+    subgraph "Triage Service :8081"
+        TC[WebFlux Controllers]
+        TA[Application / Use Cases]
+        TD[Domain: RN-01..RN-04]
+        TP[(PostgreSQL R2DBC)]
+        TK[Kafka Producer]
+        TS[SLA Scheduler]
+        TW[Webhook Alerts]
+    end
+
+    subgraph "Asistente Service :8082"
+        AC[WebFlux Controllers]
+        AA[Application / Use Cases]
+        AD[Domain: RAG + RN-05]
+        AV[(pgvector)]
+        AR[(Redis)]
+        AK[Kafka Consumer]
+        ALLM[LLM Provider]
+    end
+
+    subgraph Infra
+        K[(Kafka triaje.eventos)]
+        PG[(PostgreSQL + pgvector)]
+        RD[(Redis)]
+    end
+
+    C -->|POST /triage/pacientes| TC
+    C -->|POST /asistente/consulta| AC
+    C -->|GET /asistente/estado-urgencias| AC
+
+    TC --> TA --> TD
+    TA --> TP
+    TA --> TK
+    TS --> TD
+    TS --> TK
+    TS --> TW
+
+    TK --> K
+    K --> AK
+    AK --> AR
+
+    AC --> AA --> AD
+    AD --> AV
+    AD --> ALLM
+    AA --> AR
+
+    TP -.-> PG
+    AV -.-> PG
+    AR -.-> RD
