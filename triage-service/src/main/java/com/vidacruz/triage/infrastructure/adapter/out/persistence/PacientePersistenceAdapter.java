@@ -3,6 +3,7 @@ package com.vidacruz.triage.infrastructure.adapter.out.persistence;
 import com.vidacruz.triage.application.port.out.PacienteRepositoryPort;
 import com.vidacruz.triage.domain.model.Paciente;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -26,5 +27,14 @@ public class PacientePersistenceAdapter implements PacienteRepositoryPort {
         return repository.findById(id).map(mapper::aDominio);
     }
 
+    @Override
+    public Mono<Integer> marcarEscaladoSiCorresponde(String pacienteId) {
+        return repository.marcarEscaladoSiCorresponde(pacienteId);
+    }
 
+    @Override
+    public Flux<Paciente> buscarRegistradosSinEscalar() {
+        return  repository.findByEstadoAndEscaladoFalse("REGISTRADO")
+                .map(mapper::aDominio);
+    }
 }

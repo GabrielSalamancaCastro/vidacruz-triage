@@ -1,4 +1,4 @@
-package com.vidacruz.triage.infrastructure.adapter.config;
+package com.vidacruz.triage.infrastructure.config;
 
 
 import org.apache.kafka.clients.admin.NewTopic;

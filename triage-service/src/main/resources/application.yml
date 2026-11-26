@@ -43,6 +43,7 @@ management:
 
 triage:
   sla:
+    check-interval-ms: ${TRIAGE_SLA_CHECK_INTERVAL_MS:30000}
     check-interval-seconds: ${TRIAGE_SLA_CHECK_INTERVAL_SECONDS:30}
     override-seconds: ${TRIAGE_SLA_OVERRIDE_SECONDS:}
   security:
