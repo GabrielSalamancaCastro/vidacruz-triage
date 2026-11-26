@@ -4,10 +4,12 @@ import com.vidacruz.triage.application.port.out.EventPublisherPort;
 import com.vidacruz.triage.domain.model.EventoDominio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Component
+@Profile("local-no-kafka")
 public class NoOpEventPublisher implements EventPublisherPort {
 
     private static final Logger log = LoggerFactory.getLogger(NoOpEventPublisher.class);
