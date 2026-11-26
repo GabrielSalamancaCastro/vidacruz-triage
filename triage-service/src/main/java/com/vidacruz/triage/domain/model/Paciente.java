@@ -47,4 +47,12 @@ public record Paciente(
                     "La fecha de registro es obligatoria");
         }
     }
+
+    public int slaMinutos() {
+        return nivelTriaje.getSlaMinutos();
+    }
+
+    public boolean estaActivo() {
+        return estado != EstadoPaciente.ALTA;
+    }
 }
