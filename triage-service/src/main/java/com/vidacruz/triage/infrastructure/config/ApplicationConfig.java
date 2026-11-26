@@ -3,10 +3,8 @@ package com.vidacruz.triage.infrastructure.config;
 import com.vidacruz.triage.application.port.out.AuditoriaRepositoryPort;
 import com.vidacruz.triage.application.port.out.EventPublisherPort;
 import com.vidacruz.triage.application.port.out.PacienteRepositoryPort;
-import com.vidacruz.triage.application.service.CambiarEstadoService;
-import com.vidacruz.triage.application.service.EscalarPacienteService;
-import com.vidacruz.triage.application.service.ObtenerPacienteService;
-import com.vidacruz.triage.application.service.RegistrarPacienteService;
+import com.vidacruz.triage.application.port.out.ReporteOperacionRepositoryPort;
+import com.vidacruz.triage.application.service.*;
 import com.vidacruz.triage.domain.service.ClasificadorTriaje;
 import com.vidacruz.triage.domain.service.SlaCalculator;
 import com.vidacruz.triage.domain.service.TransicionValidator;
@@ -59,5 +57,10 @@ public class ApplicationConfig {
             AuditoriaRepositoryPort auditoriaRepository,
             EventPublisherPort eventPublisher) {
         return new EscalarPacienteService(pacienteRepository, auditoriaRepository, eventPublisher);
+    }
+
+    @Bean
+    public ReporteOperacionService reporteOperacionService(ReporteOperacionRepositoryPort repository) {
+        return new ReporteOperacionService(repository);
     }
 }
