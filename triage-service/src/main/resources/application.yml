@@ -50,6 +50,7 @@ triage:
     api-key: ${API_KEY_HEADER:vidacruz-dev-api-key}
   alerts:
     slack-webhook-url: ${SLACK_WEBHOOK_URL:}
+    discord-webhook-url: ${DISCORD_WEBHOOK_URL:}
 
 logging:
   pattern:
