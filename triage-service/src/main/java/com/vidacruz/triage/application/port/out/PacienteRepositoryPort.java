@@ -5,4 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface PacienteRepositoryPort {
     Mono<Paciente> guardar(Paciente paciente);
+    Mono<Paciente> buscarPorId(String id);
 }

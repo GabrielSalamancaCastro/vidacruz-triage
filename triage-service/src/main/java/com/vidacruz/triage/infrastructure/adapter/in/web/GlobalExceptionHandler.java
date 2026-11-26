@@ -1,9 +1,9 @@
 package com.vidacruz.triage.infrastructure.adapter.in.web;
 
 import com.vidacruz.triage.domain.exception.DominioException;
+import com.vidacruz.triage.domain.exception.TransicionInvalidaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -46,6 +46,15 @@ public class GlobalExceptionHandler {
                 "timestamp", Instant.now().toString(),
                 "error", "JSON_INVALIDO",
                 "mensaje", "El cuerpo de la petición no es JSON válido"
+        ));
+    }
+
+    @ExceptionHandler(TransicionInvalidaException.class)
+    public ResponseEntity<Map<String, Object>> handleTransicion(TransicionInvalidaException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                "timestamp", Instant.now().toString(),
+                "error", "TRANSICION_INVALIDA",
+                "mensaje", ex.getMessage()
         ));
     }
 }

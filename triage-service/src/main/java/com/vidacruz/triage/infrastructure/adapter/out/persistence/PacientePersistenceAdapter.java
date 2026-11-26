@@ -20,4 +20,11 @@ public class PacientePersistenceAdapter implements PacienteRepositoryPort {
         return repository.save(mapper.aEntity(paciente))
                 .map(mapper::aDominio);
     }
+
+    @Override
+    public Mono<Paciente> buscarPorId(String id) {
+        return repository.findById(id).map(mapper::aDominio);
+    }
+
+
 }
