@@ -101,3 +101,10 @@ docker compose up --build
 | `paciente_alta` | Triage | Asistente | Paciente dado de alta |
 | `paciente_escalado` | Triage | Asistente + Alerta webhook | SLA superado |
 
+
+- **RAG real (Fase 9):** implementado con Spring AI + pgvector, activable con el perfil
+  `llm-real` (`ASISTENTE_PROFILE=llm-real`). Requiere Spring AI 1.0.0 GA o superior;
+  la versión milestone 1.0.0-M3 usada por el BOM tiene un bug conocido de auto-configuración
+  del `VectorStore` cuando hay R2DBC en el classpath. El perfil por defecto usa fakes
+  (`FakeLlmAdapter` + `FakeVectorStoreAdapter`) que cumplen el contrato de los puertos y
+  pasan los 7 tests del asistente.

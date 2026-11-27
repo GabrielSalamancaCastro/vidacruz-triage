@@ -1,0 +1,20 @@
+spring:
+  ai:
+    openai:
+      api-key: ${LLM_API_KEY}
+      base-url: ${LLM_BASE_URL:https://api.openai.com}
+      chat:
+        options:
+          model: ${LLM_MODEL:gpt-4o-mini}
+          temperature: 0.1
+      embedding:
+        options:
+          model: text-embedding-3-small
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        dimensions: 1536
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:vidacruz}
+    username: ${POSTGRES_USER:vidacruz}
+    password: ${POSTGRES_PASSWORD:vidacruz}
