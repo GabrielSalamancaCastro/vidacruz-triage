@@ -1,7 +1,9 @@
 package com.vidacruz.asistente.infrastructure.config;
 
 import com.vidacruz.asistente.application.port.out.LlmPort;
+import com.vidacruz.asistente.application.port.out.UrgencyStateRepositoryPort;
 import com.vidacruz.asistente.application.port.out.VectorStorePort;
+import com.vidacruz.asistente.application.service.ConsultarEstadoUrgenciasService;
 import com.vidacruz.asistente.application.service.ConsultarProtocoloService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,5 +17,11 @@ public class AsistenteConfig {
             LlmPort llm
     ) {
         return new ConsultarProtocoloService(vectorStore, llm);
+    }
+
+    @Bean
+    public ConsultarEstadoUrgenciasService consultarEstadoUrgenciasService(
+            UrgencyStateRepositoryPort repository) {
+        return new ConsultarEstadoUrgenciasService(repository);
     }
 }
