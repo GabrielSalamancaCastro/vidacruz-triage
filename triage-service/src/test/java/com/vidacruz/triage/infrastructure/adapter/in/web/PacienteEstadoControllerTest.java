@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.when;
 
 @WebFluxTest(controllers = PacienteEstadoController.class)
 @Import(GlobalExceptionHandler.class)
+@TestPropertySource(properties = "triage.security.enabled=false") // -> Se añade solamente para que los test evaluen el comportamiento de los endpoints sin API KEY
 public class PacienteEstadoControllerTest {
     @Autowired
     private WebTestClient webTestClient;

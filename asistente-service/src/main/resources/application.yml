@@ -69,6 +69,7 @@ resilience4j:
 
 asistente:
   security:
+    enabled: ${ASISTENTE_SECURITY_ENABLED:true}
     api-key: ${API_KEY_HEADER:vidacruz-dev-api-key}
   rag:
     similarity-threshold: 0.75

@@ -47,6 +47,7 @@ triage:
     check-interval-seconds: ${TRIAGE_SLA_CHECK_INTERVAL_SECONDS:30}
     override-seconds: ${TRIAGE_SLA_OVERRIDE_SECONDS:}
   security:
+    enabled: ${TRIAGE_SECURITY_ENABLED:true} #Se añade para que Unit Test pasen
     api-key: ${API_KEY_HEADER:vidacruz-dev-api-key}
   alerts:
     slack-webhook-url: ${SLACK_WEBHOOK_URL:}
