@@ -4,7 +4,6 @@ import com.vidacruz.triage.domain.model.EventoDominio;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +13,6 @@ import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import reactor.core.publisher.Flux;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOptions;
 
@@ -27,8 +25,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Testcontainers
-@Disabled
-public class KafkaEventPublisherAdapterIT {
+class KafkaEventPublisherAdapterIT {
+
     @Container
     static KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.6.0"));
 
@@ -41,18 +39,14 @@ public class KafkaEventPublisherAdapterIT {
     private KafkaEventPublisherAdapter adapter;
 
     @Test
-    void publica_evento_en_triaje_eventos() throws Exception {
+    void publica_evento_en_triaje_eventos() {
         var evento = new EventoDominio(
-                "paciente_registrado",
-                "p-test-001",
-                Instant.now(),
+                "paciente_registrado", "p-test-001", Instant.now(),
                 Map.of("nivel", "CRITICO", "slaMinutos", 5)
         );
 
-        // Publicar
         adapter.publicar(evento).block(Duration.ofSeconds(10));
 
-        // Consumir desde el principio para verificar
         var receiverOptions = ReceiverOptions.<String, String>create(Map.of(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafka.getBootstrapServers(),
                 ConsumerConfig.GROUP_ID_CONFIG, "test-consumer-" + System.currentTimeMillis(),
@@ -62,9 +56,7 @@ public class KafkaEventPublisherAdapterIT {
         )).subscription(List.of("triaje.eventos"));
 
         ConsumerRecord<String, String> record = KafkaReceiver.create(receiverOptions)
-                .receive()
-                .next()
-                .block(Duration.ofSeconds(15));
+                .receive().next().block(Duration.ofSeconds(15));
 
         assertThat(record).isNotNull();
         assertThat(record.key()).isEqualTo("p-test-001");
