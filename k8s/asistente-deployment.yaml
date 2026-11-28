@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asistente-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: asistente-service
+  template:
+    metadata:
+      labels:
+        app: asistente-service
+    spec:
+      containers:
+        - name: asistente-service
+          image: vidacruz-triage-asistente-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082
+          envFrom:
+            - configMapRef:
+                name: vidacruz-config
+            - secretRef:
+                name: vidacruz-secrets
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8082
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 10
